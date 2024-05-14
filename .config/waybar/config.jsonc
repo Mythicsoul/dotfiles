@@ -1,51 +1,50 @@
 {
-    
-    "reload_style_on_change": false,
-    "layer": "top", 
-    "position": "top", 
-    "margin-top": 8,
-    "width": 1904,
-    "spacing": 0, 
-
-    "modules-left": ["custom/launcher","hyprland/window"],
-    "modules-center": ["hyprland/workspaces"],
-    "modules-right": [ "network","group/tray","group/hardware",  "pulseaudio", "clock","clock#date", "custom/power"],
-
-
-	 "custom/launcher":{
-	        "format": " ",
-	        "on-click": "sleep 0.1 && rofi -show drun",
-	        "on-click-right": "killall rofi",
-	        "tooltip":false
-	    },
-
-
-    "hyprland/workspaces": {	
-	"format": "{icon}",
-	"all-outputs": false,
-	"active-only": false,
-	"on-click": "activate",
-        "persistent-workspaces": {
-		"DP-2": [ 1, 2, 3, 4],
-		"HDMI-A-1": [ 5, 6, 7, 8]
-       }
-    },
-
-	"hyprland/window":{
+	"reload_style_on_change": false,
+	"layer": "top",
+	"position": "top",
+	"margin-top": 8,
+	"width": 1904,
+	"spacing": 0,
+	"modules-left": [
+		"custom/launcher","hyprland/window"
+	],
+	"modules-center": [
+		"hyprland/workspaces"
+	],
+	"modules-right": [
+		"network","group/tray","group/hardware","pulseaudio","clock","clock#date","custom/power"
+	],
+	"custom/launcher": {
+		"format": " ",
+		"on-click": "sleep 0.1 && rofi -show drun",
+		"on-click-right": "killall rofi",
+		"tooltip": false
+	},
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"all-outputs": false,
+		"active-only": false,
+		"on-click": "activate",
+		"persistent-workspaces": {
+			"DP-2": [
+				1,2,3,4
+			],
+			"HDMI-A-1": [
+				5,6,7,8
+			]
+		}
+	},
+	"hyprland/window": {
 		"separate-outputs": true,
 		"format": "{}"
-	
 	},
-	
-	    "network": {
-    	"interval": 1,
-        "format-ethernet": " {bandwidthUpBytes}  {bandwidthDownBytes}",
-        "format-disconnected": "Disconnected ⚠",
-        "tooltip": false,
-        "min-length": 22 
-
-    },
-	
+	"network": {
+		"interval": 1,
+		"format-ethernet": " {bandwidthUpBytes}  {bandwidthDownBytes}",
+		"format-disconnected": "Disconnected ⚠",
+		"tooltip": false,
+		"min-length": 22
+	},
 	"group/hardware": {
 		"drawer": {
 			"transition-duration": 700,
@@ -59,45 +58,36 @@
 			"memory",
 			"disk"
 		]
-	
 	},
-	
 	"disk": {
 		"interval": 30,
-		"format":"󰋊 {percentage_free}%",
+		"format": "󰋊 {percentage_free}%",
 		"tooltip-format": "{used}/{total}",
 		"path": "/"
-	
 	},
-	    "cpu": {
-        "format": " {usage}%",
-        "tooltip": true,
-        "min-length":  6,
-    },
-    "memory": {
-        "format": " {}%"
-    },
- "temperature": {
-    "interval": 3,
-    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
-    "format": " {temperatureC}°C",
-    "tooltip": false
-},
-
-	
+	"cpu": {
+		"format": " {usage}%",
+		"tooltip": true,
+		"min-length": 6,
+	},
+	"memory": {
+		"format": " {}%"
+	},
+	"temperature": {
+		"interval": 3,
+		"hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+		"format": " {temperatureC}°C",
+		"tooltip": false
+	},
 	"custom/hardware": {
 		"format": "",
 		"tooltip": false
-	
 	},
-	
 	"custom/tray": {
 		"format": "",
 		"tooltip": false
 	},
-	
 	"group/tray": {
-	
 		"drawer": {
 			"transition-duration": 300,
 			"transition-left-to-right": false,
@@ -107,55 +97,38 @@
 			"custom/tray",
 			"tray"
 		]
-	
 	},
-
-    "tray": { // collapses on right click saj
-        "icon-size": 16,
-        "spacing": 0, //glitches otherwise
-        "show-passive-items": true,
-    },
-  
-        
-    
-
+	"tray": { // collapses on right click saj
+		"icon-size": 16,
+		"spacing": 0, //glitches otherwise
+		"show-passive-items": true,
+	},
 	"pulseaudio": {
 		"tooltip": true,
 		"scroll-step": 1,
 		"format": "{icon} {volume}%",
 		"format-muted": "󰝟 {volume}%",
-		"on-click":"pamixer --toggle-mute",
+		"on-click": "pamixer --toggle-mute",
 		"format-icons": {
-			"default": ["", ""]
+			"default": [
+				"",""
+			]
 		}
 	},
-	
-
-	    "clock": {
-        	"timezone": "Europe/Berlin",
+	"clock": {
+		"timezone": "Europe/Berlin",
 		"interval": 60,
 		"format": "{:%H:%M}",
 		"tooltip": false,
-
-    },
-    "clock#date": {
-    	"timezone": "Europe/Berlin",
-    	"format": "{:%A, %b %d }",
-    	"tooltip": false,
-    
-    },
-	    
-
-    
-    
-
-    
- 	  "custom/power":{
-	        "format": " ",
-	        "on-click": "bash ~/.config/dotscripts/powermenu.sh", 
-	        "tooltip": false
-	    },
-    
-
+	},
+	"clock#date": {
+		"timezone": "Europe/Berlin",
+		"format": "{:%A, %b %d }",
+		"tooltip": false,
+	},
+	"custom/power": {
+		"format": " ",
+		"on-click": "bash ~/.config/dotscripts/powermenu.sh",
+		"tooltip": false
+	},
 }
-
