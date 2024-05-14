@@ -1,0 +1,63 @@
+/**
+ * ROFI Color theme (heavily modified/simplified arthur theme)
+ */
+
+* {
+    translucent: rgba(0,0,0,0.5);
+    font: "Inconsolata 12";
+    background-color: transparent;
+}
+window {
+    location: center;
+    anchor: center;
+    transparency: "real";
+    padding: 10px;
+    border: 0px;
+    border-radius: 8px;
+    background-color: transparent;
+    spacing: 0;
+}
+inputbar {
+    color: turquoise;
+    padding: 11px;
+    background-color: @translucent;
+    border: 2px 2px 0px 2px;
+    border-radius:  15px 15px 0px 0px;
+    border-color: #285577;
+    font: inherit;
+}
+entry,prompt,case-indicator {
+    text-font: inherit;
+    text-color: inherit;
+}
+listview {
+    padding: 4px;
+    border-radius: 0px 0px 15px 15px;
+    border-color: #285577;
+    border: -4px 2px 2px 2px;
+    background-color: @translucent;
+    dynamic: false;
+    lines: 10;
+}
+element {
+    padding: 2px;
+    border-radius: 4px;
+    background-color: transparent;
+    color: #FFFACD;
+    font:inherit;
+}
+element-icon {
+    padding: 0px 0px 0px 6px;
+    //background-color: white;
+}
+element-text {
+    background-color: inherit;
+    text-color:       inherit;
+}
+element selected {
+    background-color: #2e0347;
+}
+
+error-message {
+    background-color: darkblue;
+}
