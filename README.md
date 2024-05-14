@@ -19,4 +19,5 @@ These dotfiles are not meant to be a drag n drop replacement.\
 As I am a newcomer to Linux, keep in mind that you might find something *cursed*.\
 If that's the case... oh well. Feel free to enlighten, so I can educate myself on any mistakes.\
 Discord: @Mythicsoul
+
 ---
