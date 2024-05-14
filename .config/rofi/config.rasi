@@ -1,0 +1,14 @@
+// ROFI CONFIG
+configuration {
+  display-drun: "Applications:";
+  display-window: "Windows:";
+  drun-display-format: "{icon} {name}";
+  font: "Inconsolata 12";
+  show-icons: true;
+  icon-theme: "Adwaita";
+}
+
+//@theme "solarized"
+//@theme "/nix/store/k85vc676dgi5hn9hxxwzhnwc3bg9ryj9-rofi-1.7.5+wayland1/share/rofi/themes/DarkBlue.rasi"
+// @theme "/nix/store/xk5rsp8f1anq31afnrsvwj7hjmkyr4dg-rofi-1.7.5+wayland2/share/rofi/themes/DarkBlue.rasi"
+@theme "~/.config/rofi/colors.rasi"
