@@ -150,7 +150,7 @@ window#waybar {
 	border-bottom-left-radius: 0px;
 }
 
-#cpu, #temperature, #memory, #disk {
+#cpu, #temperature, #memory, #disk, #power-profiles-daemon {
 	margin-bottom: 4px;
 	margin-top: 4px;
 	padding-right: 4px;
@@ -159,8 +159,8 @@ window#waybar {
 	color: #FFFACD;
 }
 
-#cpu:hover, #temperature:hover, #memory:hover, #disk:hover {
-	background: #1A1826;
+#cpu:hover, #temperature:hover, #memory:hover, #disk:hover, #power-profiles-daemon:hover{
+	background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
 }
 
 

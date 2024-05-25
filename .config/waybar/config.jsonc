@@ -53,7 +53,8 @@
 		"orientation": "horizontal",
 		"modules": [
 			"custom/hardware",
-			"cpu",
+			"power-profiles-daemon",
+            "cpu",
 			"temperature",
 			"memory",
 			"disk"
@@ -70,6 +71,17 @@
 		"tooltip": true,
 		"min-length": 6,
 	},
+    "power-profiles-daemon": {
+        "format": "{icon} {profile}",
+        "tooltip-format": "Power profile: {profile}\n󱞪 powerprofilesctl",
+        "tooltip": true,
+        "format-icons": {
+          "default": "",
+          "performance": "󱗗",
+          "balanced": "",
+          "power-saver": ""
+        }
+    },
 	"memory": {
 		"format": " {}%"
 	},
