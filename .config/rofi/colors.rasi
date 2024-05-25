@@ -3,7 +3,7 @@
  */
 
 * {
-    translucent: rgba(0,0,0,0.5);
+    translucent: rgba(0,0,0,0.6);
     font: "Inconsolata 12";
     background-color: transparent;
 }
