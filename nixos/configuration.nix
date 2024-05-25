@@ -216,10 +216,12 @@
     catimg
     htop
     nvitop
+    gimp
+    lmms
+    power-profiles-daemon
 ];
 
   fonts.packages = with pkgs; [
-    font-awesome
     nerdfonts
   ];
   fonts.fontDir.enable = true;  
@@ -262,13 +264,13 @@
     # changing PS1 to turquoise
     export PS1="\n\[\033[1;36m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\$\[\033[0m\] "
   '';
+  environment.shellAliases = {
+    code = "nohup flatpak run com.visualstudio.code --enable-features=UseOzonePlatform --ozone-platform=wayland";
+  }; 
   programs.hyprland.enable = true;
   programs.hyprland.enableNvidiaPatches = true;
   programs.waybar.enable = true;
-  services.flatpak.enable = true;
   programs.xwayland.enable = true;
-  services.syncthing.enable = true;
-  services.syncthing.relay.enable = true;
   programs.nm-applet.enable = true;
   xdg.portal = {
 	enable = true;
@@ -281,4 +283,8 @@
 	};
   };
 
+  services.flatpak.enable = true;
+  services.syncthing.enable = true;
+  services.syncthing.relay.enable = true;
+  services.power-profiles-daemon.enable = true;
 }
