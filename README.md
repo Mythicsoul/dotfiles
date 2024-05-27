@@ -4,7 +4,7 @@
 | main components |                                               |
 |----------- |----------------------------------------------------|
 | OS:        | [NixOS](https://nixos.org)                         |
-| WM:        | [Hyprland](https://hyprland.org) v.032.3           |
+| WM:        | [Hyprland](https://hyprland.org) v0.32.3           |
 | Status Bar:| [Waybar](https://github.com/Alexays/Waybar) v0.10.3|
 | Launcher:  | [Rofi](https://github.com/davatorium/rofi)         |
 | Terminal:  | [kitty](https://sw.kovidgoyal.net/kitty/)          |
