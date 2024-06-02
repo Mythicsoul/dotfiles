@@ -87,8 +87,8 @@
   services.xserver.displayManager.lightdm.greeters.gtk.enable = false;
   # Configure keymap in X11
   services.xserver = {
-    layout = "de";
-    xkbVariant = "";
+    xkb.layout = "de";
+    xkb.variant = "";
   };
 
   # Configure console keymap
@@ -130,23 +130,24 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Waybar
-  nixpkgs.overlays = let
-    nixos-unstable = import <nixos-unstable> {};
-  in [
-    (final: prev: {
-        inherit (nixos-unstable.pkgs) waybar;
-    })
-    # works but no clue how to add unstable options
-    #(final: prev: {
-    #	inherit (nixos-unstable.pkgs) hyprland;
-    #})
-    (self: super: {
-      waybar = super.waybar.overrideAttrs (oldAttrs: {
-        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-      });
-    })
-  ];
+  # Waybar 
+# Not needed after 24.05 upgrade
+#  nixpkgs.overlays = let
+#    nixos-unstable = import <nixos-unstable> {};
+#  in [
+#    (final: prev: {
+#        inherit (nixos-unstable.pkgs) waybar;
+#    })
+#    # works but no clue how to add unstable options
+#    #(final: prev: {
+#    #	inherit (nixos-unstable.pkgs) hyprland;
+#    #})
+#    (self: super: {
+#      waybar = super.waybar.overrideAttrs (oldAttrs: {
+#        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+#      });
+#    })
+#  ];
 
 
   # List packages installed in system profile. To search, run:
@@ -179,10 +180,8 @@
     qt6.qtwayland
     libsForQt5.qt5.qtwayland    
     linuxHeaders
-    # xwayland
-    # xdg-desktop-portal-hyprland
     # GNOME APPS YOINK
-    gnome.gedit
+    gedit
     gnome.gnome-disk-utility
     gnome.nautilus
     gnome.gnome-system-monitor
@@ -219,6 +218,7 @@
     gimp
     lmms
     power-profiles-daemon
+    waybar
 ];
 
   fonts.packages = with pkgs; [
@@ -268,7 +268,6 @@
     code = "nohup flatpak run com.visualstudio.code --enable-features=UseOzonePlatform --ozone-platform=wayland";
   }; 
   programs.hyprland.enable = true;
-  programs.hyprland.enableNvidiaPatches = true;
   programs.waybar.enable = true;
   programs.xwayland.enable = true;
   programs.nm-applet.enable = true;
