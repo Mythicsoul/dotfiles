@@ -118,7 +118,7 @@
 	"pulseaudio": {
 		"tooltip": true,
 		"scroll-step": 1,
-		"format": "{icon} {volume}%",
+		"format": "{icon}  {volume}%",
 		"format-muted": "󰝟 {volume}%",
 		"on-click": "pamixer --toggle-mute",
 		"format-icons": {
