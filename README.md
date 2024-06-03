@@ -6,8 +6,6 @@
 | OS:        | [NixOS](https://nixos.org)                         |
 | WM:        | [Hyprland](https://hyprland.org)                   |
 | Status Bar:| [Waybar](https://github.com/Alexays/Waybar)        |
-| WM:        | [Hyprland](https://hyprland.org)                   |
-| Status Bar:| [Waybar](https://github.com/Alexays/Waybar)        |
 | Launcher:  | [Rofi](https://github.com/davatorium/rofi)         |
 | Terminal:  | [kitty](https://sw.kovidgoyal.net/kitty/)          |
 ---
