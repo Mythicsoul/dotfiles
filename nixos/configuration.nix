@@ -2,14 +2,26 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
+# let 
+#   nvdriver = pkgs.linuxPackages.nvidia_x11.overrideAttrs(oldAttrs: rec {
+#     version ="555.58.02";
+#     name = (builtins.parseDrvName oldAttrs.name).name + "-" + version;
+#     src = pkgs.fetchurl {
+#       url = "https://download.nvidia.com/XFree86/Linux-x86_64/${version}/NVIDIA-Linux-x86_64-${version}.run";
+#       sha256 = "c5cb6de133d194e27aaf94b9e21e56e8f4faff7672d91e0048d14fbbc4d21ca3";
+#     };
+#     patches = [];
+#   });
+# in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   # Bootloader
 
   boot.loader = {
@@ -34,17 +46,16 @@
 	extraPackages = with pkgs; [ libva ];
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (pkgs.lib.getName pkg) [ "nvidia-x11" ];
-
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
-	modesetting.enable = true;
-	open = false;
-	nvidiaSettings = true;
-	package = config.boot.kernelPackages.nvidiaPackages.stable;
+    modesetting.enable = true;
+	  open = false;
+	  nvidiaSettings = true;
+	  package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = nvdriver;
   };
+
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -65,16 +76,16 @@
     
     LC_ALL = "en_GB.UTF-8";
 
-    #LC_ADDRESS = "de_DE.UTF-8";
-    #LC_IDENTIFICATION = "de_DE.UTF-8";
-    #LC_MEASUREMENT = "de_DE.UTF-8";
-    #LC_MONETARY = "de_DE.UTF-8";
-    #LC_NAME = "de_DE.UTF-8";
-    #LC_NUMERIC = "de_DE.UTF-8";
-    #LC_PAPER = "de_DE.UTF-8";
-    #LC_TELEPHONE = "de_DE.UTF-8";
-    #LC_TIME = "en_US.UTF-8";
-    #LC_MESSAGES = "en_US.UTF-8";
+    # LC_ADDRESS = "de_DE.UTF-8";
+    # LC_IDENTIFICATION = "de_DE.UTF-8";
+    # LC_MEASUREMENT = "de_DE.UTF-8";
+    # LC_MONETARY = "de_DE.UTF-8";
+    # LC_NAME = "de_DE.UTF-8";
+    # LC_NUMERIC = "de_DE.UTF-8";
+    # LC_PAPER = "de_DE.UTF-8";
+    # LC_TELEPHONE = "de_DE.UTF-8";
+    # LC_TIME = "en_GB.UTF-8";
+    # LC_MESSAGES = "en_GB.UTF-8";
   };
   
   # Enable the X11 windowing system.
@@ -83,8 +94,8 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = false;
   services.xserver.desktopManager.gnome.enable = false;
-  services.xserver.displayManager.lightdm.enable = false;
-  services.xserver.displayManager.lightdm.greeters.gtk.enable = false;
+  services.xserver.displayManager.startx.enable = true;
+
   # Configure keymap in X11
   services.xserver = {
     xkb.layout = "de";
@@ -118,6 +129,7 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+ users.defaultUserShell = pkgs.zsh;
   users.users.mythicsoul = {
     isNormalUser = true;
     description = "mythicsoul";
@@ -127,41 +139,36 @@
     ];
   };
 
+  # Enable Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Waybar 
-# Not needed after 24.05 upgrade
-#  nixpkgs.overlays = let
-#    nixos-unstable = import <nixos-unstable> {};
-#  in [
-#    (final: prev: {
-#        inherit (nixos-unstable.pkgs) waybar;
-#    })
-#    # works but no clue how to add unstable options
-#    #(final: prev: {
-#    #	inherit (nixos-unstable.pkgs) hyprland;
-#    #})
-#    (self: super: {
-#      waybar = super.waybar.overrideAttrs (oldAttrs: {
-#        mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-#      });
-#    })
-#  ];
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs;
   [
-    neofetch
-    kitty
     hyprland
+    neofetch 
+    kitty
+    waybar
+    rofi-wayland
+    rofi-power-menu
+    power-profiles-daemon
+    hyprpaper
+    dunst
+    wl-clipboard
+    cliphist
+    grim
+    slurp
+    libnotify
+    lm_sensors
+    playerctl
     grub2
     chatterino2
-    mesa-demos
+    # mesa-demos
     spotify
-    rofi-wayland
     fsearch
     flatpak
     streamlink
@@ -172,15 +179,13 @@
     # gnomeExtensions.appindicator
     # gnomeExtensions.nvidia-gpu-stats-tool
     # gnomeExtensions.dash-to-panel
-    steam
+    # steam
     firefox
-    gh
+    # gh
     syncthing
     syncthingtray
     qt6.qtwayland
     libsForQt5.qt5.qtwayland    
-    linuxHeaders
-    # GNOME APPS YOINK
     gedit
     gnome.gnome-disk-utility
     gnome.nautilus
@@ -189,36 +194,42 @@
     gnome.gnome-calendar
     gnome.gnome-calculator
     baobab
-    wireplumber
     pamixer
-    dunst
-    pipewire
     nomacs
-    hyprpaper
     keepassxc
-    rofi-power-menu
-    wl-clipboard
-    cliphist
-    libnotify
     wev
     font-manager
     killall
-    github-desktop
-    lm_sensors
-    playerctl
-    grim
-    slurp
     networkmanagerapplet
-    spotify-player
     jq
     gnome.adwaita-icon-theme
     catimg
     htop
+    btop
     nvitop
     gimp
     lmms
-    power-profiles-daemon
-    waybar
+    # neovim
+    opentabletdriver
+    # (vscode-with-extensions.override {
+    #   vscode = vscodium;
+    #   vscodeExtensions = with vscode-extensions; [
+    #     ms-vscode.cpptools-extension-pack
+    #     #twxs.cmake
+    #     #vscode.cmake-tools
+    #     #josetr.cmake-language-support-vscode
+    #     bbenoist.nix
+    #     arrterian.nix-env-selector
+    #   ]; 
+    # })
+    # inputs.helix.packages."${pkgs.system}".helix
+    nil
+    clang-tools
+    cmake
+    gcc
+    cmake-language-server
+    gnumake
+    xfce.thunar
 ];
 
   fonts.packages = with pkgs; [
@@ -259,27 +270,40 @@
     set tabstospaces
     set tabsize 4
   '';
-  environment.etc."bashrc".text = 
-  ''
-    # changing PS1 to turquoise
-    export PS1="\n\[\033[1;36m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\$\[\033[0m\] "
-  '';
-  environment.shellAliases = {
-    code = "nohup flatpak run com.visualstudio.code --enable-features=UseOzonePlatform --ozone-platform=wayland";
-  }; 
+
+#  environment.etc."bashrc".text = 
+#  ''
+#    export PS1="\n\[\033[1;36m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\$\[\033[0m\] "
+#    # set PATH so it includes user's private bin if it exists
+#    if [ -d "$HOME/.local/bin" ] ; then
+#        PATH="$HOME/.local/bin:$PATH"
+#    fi
+#  '';
+#  environment.shellAliases = {
+#    code = "nohup flatpak run com.visualstudio.code --enable-features=UseOzonePlatform --ozone-platform=wayland";
+#  }; 
+
   programs.hyprland.enable = true;
+  programs.firefox.enable = true;
   programs.waybar.enable = true;
   programs.xwayland.enable = true;
   programs.nm-applet.enable = true;
+  # programs.steam.enable = true;
+  programs.zsh.enable = true;
+  # programs.steam.gamescopeSession.enable = false;
+  # programs.gamemode.enable = true;
+
+  hardware.opentabletdriver.enable = true;
+
   xdg.portal = {
-	enable = true;
-	extraPortals = [
-	  pkgs.xdg-desktop-portal-gtk 
-	];
-	config.Hyprland = {
-	  default = [ "hyprland" "gtk" ];
-	  "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-	};
+	  enable = true;
+	  extraPortals = [
+	    pkgs.xdg-desktop-portal-gtk 
+	  ];
+	  config.Hyprland = {
+	    default = [ "hyprland" "gtk" ];
+	    "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+	  };
   };
 
   services.flatpak.enable = true;
