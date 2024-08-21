@@ -4,7 +4,7 @@
 	"position": "top",
 	"margin-top": 4,
     "margin-bottom": -6,
-	"width": 1904,
+	"width": 1918,
 	"spacing": 0,
 	"modules-left": [
 		"custom/launcher","hyprland/window"
@@ -13,7 +13,7 @@
 		"hyprland/workspaces"
 	],
 	"modules-right": [
-		"network","group/tray","group/hardware","pulseaudio","clock","clock#date","custom/power"
+		"custom/spotify","network","group/tray","group/hardware","pulseaudio","clock","clock#date","custom/power"
 	],
 	"custom/launcher": {
 		"format": " ",
@@ -38,7 +38,15 @@
 	"hyprland/window": {
 		"separate-outputs": true,
 		"format": "{}"
-	},
+    },
+    "custom/spotify": {
+        "exec": "~/.config/dotscripts/spotifymodule.sh",
+        "format": "    {} ",
+        "escape": true,
+        "return-type": "json",
+        "max-length": 60,
+        "on-click": "playerctl -p spotify play-pause"
+    },
 	"network": {
 		"interval": 1,
 		"format-ethernet": " {bandwidthUpBytes}  {bandwidthDownBytes}",
@@ -49,7 +57,7 @@
 	"group/hardware": {
 		"drawer": {
 			"transition-duration": 700,
-			"transition-left-to-right": false,
+			"transition-left-to-right": false
 		},
 		"orientation": "horizontal",
 		"modules": [
@@ -70,7 +78,7 @@
 	"cpu": {
 		"format": " {usage}%",
 		"tooltip": true,
-		"min-length": 6,
+		"min-length": 6
 	},
     "power-profiles-daemon": {
         "format": "{icon} {profile}",
@@ -103,7 +111,7 @@
 	"group/tray": {
 		"drawer": {
 			"transition-duration": 300,
-			"transition-left-to-right": false,
+			"transition-left-to-right": false
 		},
 		"orientation": "horizontal",
 		"modules": [
@@ -114,7 +122,7 @@
 	"tray": { // collapses on right click saj
 		"icon-size": 16,
 		"spacing": 0, //glitches otherwise
-		"show-passive-items": true,
+		"show-passive-items": true
 	},
 	"pulseaudio": {
 		"tooltip": true,
@@ -132,16 +140,16 @@
 		"timezone": "Europe/Berlin",
 		"interval": 60,
 		"format": "{:%H:%M}",
-		"tooltip": false,
+		"tooltip": false
 	},
 	"clock#date": {
 		"timezone": "Europe/Berlin",
 		"format": "{:%A, %b %d }",
-		"tooltip": false,
+		"tooltip": false
 	},
 	"custom/power": {
 		"format": " ",
 		"on-click": "bash ~/.config/dotscripts/powermenu.sh",
 		"tooltip": false
-	},
+	}
 }
