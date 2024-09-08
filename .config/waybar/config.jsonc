@@ -2,9 +2,8 @@
 	"reload_style_on_change": false,
 	"layer": "top",
 	"position": "top",
-	"margin-top": 4,
-    "margin-bottom": -6,
-	"width": 1918,
+	"width": 1920,
+	"height": 22,
 	"spacing": 0,
 	"modules-left": [
 		"custom/launcher","hyprland/window"
@@ -13,7 +12,7 @@
 		"hyprland/workspaces"
 	],
 	"modules-right": [
-		"custom/spotify","network","group/tray","group/hardware","pulseaudio","clock","clock#date","custom/power"
+		"group/tray","group/hardware","custom/spotify","pulseaudio","clock","clock#date","custom/power"
 	],
 	"custom/launcher": {
 		"format": " ",
@@ -38,21 +37,22 @@
 	"hyprland/window": {
 		"separate-outputs": true,
 		"format": "{}"
-    },
-    "custom/spotify": {
-        "exec": "~/.config/dotscripts/spotifymodule.sh",
-        "format": "    {} ",
-        "escape": true,
-        "return-type": "json",
-        "max-length": 60,
-        "on-click": "playerctl -p spotify play-pause"
-    },
+  },
+  "custom/spotify": {
+    "exec": "~/.config/dotscripts/spotifymodule.sh",
+    "format": " {}",
+    "escape": true,
+    "return-type": "json",
+    "max-length": 46,
+    "on-click": "playerctl -p spotify play-pause",
+    "tooltip": false
+  },
 	"network": {
 		"interval": 1,
 		"format-ethernet": " {bandwidthUpBytes}  {bandwidthDownBytes}",
 		"format-disconnected": "Disconnected ⚠",
 		"tooltip": false,
-		"min-length": 22
+		"min-length": 20
 	},
 	"group/hardware": {
 		"drawer": {
@@ -63,7 +63,8 @@
 		"modules": [
 			"custom/hardware",
 			"power-profiles-daemon",
-            "cpu",
+			"network",
+      "cpu",
 			"temperature",
 			"memory",
 			"disk"
@@ -78,24 +79,26 @@
 	"cpu": {
 		"format": " {usage}%",
 		"tooltip": true,
-		"min-length": 6
+		"min-length": 6,
+		"interval": 1
 	},
-    "power-profiles-daemon": {
-        "format": "{icon} {profile}",
-        "tooltip-format": "Power profile: {profile}\n󱞪 powerprofilesctl",
-        "tooltip": true,
-        "format-icons": {
-          "default": "",
-          "performance": "󱗗",
-          "balanced": "",
-          "power-saver": ""
-        }
+  "power-profiles-daemon": {
+  	"format": "{icon} {profile}",
+  	"tooltip-format": "Power profile: {profile}\n󱞪 powerprofilesctl",
+  	"tooltip": true,
+  	"format-icons": {
+  			"default": "",
+      	"performance": "󱗗",
+      	"balanced": "",
+      	"power-saver": ""
+      }
     },
 	"memory": {
-		"format": " {}%"
+		"format": " {}%",
+		"interval": 1
 	},
 	"temperature": {
-		"interval": 3,
+		"interval": 1,
 		"hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
 		"format": " {temperatureC}°C",
 		"tooltip": false
@@ -105,7 +108,7 @@
 		"tooltip": false
 	},
 	"custom/tray": {
-		"format": "",
+		"format": "",
 		"tooltip": false
 	},
 	"group/tray": {

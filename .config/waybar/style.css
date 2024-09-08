@@ -1,51 +1,48 @@
 * {
-   	padding: 0px;
-   	margin: 0px;
-   	border: none;
-   	min-height: 0;
-    font-family: "NotoSans Nerd Font" ;
-    font-weight: 600;
-	font-size: 13px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  min-height: 0;
+  font-family: "NotoSans Nerd Font";
+  font-weight: 600;
+  font-size: 13px;
 }
 
 window#waybar {
-	background: rgba(46, 3, 71, 0.5);
-	border-radius: 8px;
+	background: rgba(50, 3, 71, 0.8);
 }
 
 #custom-launcher {
-	font-size: 16px;
-	margin: 4px;
+	margin-right: 6px;
+	margin-left: 2px;
 	padding-left: 4px;
 	border-radius: 6px;
 	transition: none;
 	color: #02d4cc;
-    background: #1A1826;
+  background: transparent;
 }
 
 #window {
-	margin-left: 4px;
 	border-radius: 8px;
 	transition: none;
-    color: #FFFACD;
+	color: #FFFACD;
 	background: transparent;
 	opacity: 1;
 }
 
 #workspaces {
-	margin-bottom: 4px;
-	margin-top: 4px;
 	background: transparent;
- 	border-style: solid;
+ 	border-right-style: solid;
+ 	border-left-style: solid;
  	border-width: 2px;
- 	border-color: rgba(72,209,204,0.1);
+ 	border-color: #47056e;
  	border-radius: 10px;
 }
 
 #workspaces button {
 	min-width: 30px;
 	color: #FFFACD;
-	background: linear-gradient(180deg, #47056e , #2e0347);
+	background: linear-gradient(180deg, #6e0561, #2D033B 70%);
 	border-radius: 0px;
 }
 
@@ -61,11 +58,13 @@ window#waybar {
 #workspaces button:first-child{
 	border-top-left-radius: 8px;
 	border-bottom-left-radius: 8px;
+	background: linear-gradient(180deg, #6e0561, #2D033B 70%);
 }
 
 #workspaces button:last-child{
 	border-top-right-radius: 8px;
 	border-bottom-right-radius: 8px;
+	background: linear-gradient(180deg, #6e0561, #2D033B 70%);
 }
 
 #workspaces button.active:first-child{
@@ -94,30 +93,19 @@ window#waybar {
 
 
 #workspaces button:hover {
-	background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
-    box-shadow: inherit;
-   	text-shadow: inherit;
+  background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
+  box-shadow: inherit;
+  text-shadow: inherit;
 }
 
-#network {
-	margin-top: 4px;
-	margin-bottom: 4px;
-	border-radius: 8px;
-	transition: none;
-	color: #FFFACD;
-	background: linear-gradient(180deg, #47056e , #2e0347);
-}
 
 #custom-tray {
-	color: #FFFACD;
-	min-width: 30px;
+	color: #de78c3;
+	min-width: 20px;
 	border-radius: 8px;
-	background: linear-gradient(180deg, #47056e , #2e0347);
+	background: #531866;
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	margin-left: 4px;
 }
 
 #tray {
@@ -139,51 +127,44 @@ window#waybar {
 
 #custom-hardware {
 	min-width: 10px;
-	margin-right: 4px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	border-radius: 8px;
 	min-width: 30px;
-	color: #FFFACD;
-	background: linear-gradient(180deg, #47056e , #2e0347);
+	color: #02a79f;
+	background: #531866;
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 }
 
-#cpu, #temperature, #memory, #disk, #power-profiles-daemon {
-	margin-bottom: 4px;
-	margin-top: 4px;
+#cpu, #temperature, #memory, #disk, #power-profiles-daemon, #network {
 	padding-right: 4px;
 	padding-left: 4px;
 	background: transparent;
 	color: #FFFACD;
 }
 
-#cpu:hover, #temperature:hover, #memory:hover, #disk:hover, #power-profiles-daemon:hover{
+#cpu:hover, #temperature:hover, #memory:hover, #disk:hover, #power-profiles-daemon:hover ,#network:hover{
 	background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
 }
 
+#custom-spotify {
+  padding-left: 4px;
+  transition: none;
+  color: #1DB954;
+  background: linear-gradient(90deg, rgba(83,24,102,1) 20%, rgba(106,5,114,1) 50%, rgba(92,5,97,1) 100%); 
+}
 
 #pulseaudio {
-	margin-top: 4px;
-	margin-bottom: 4px;
-	margin-right: 4px;
 	padding-left: 4px;
 	padding-right: 4px;
-	border-radius: 8px;
 	transition: none;
-	color: #FFFACD;
-	background: linear-gradient(180deg, #47056e , #2e0347);
+	color: #f9b1e6;
+	background: #5c0561;
 }
 
 #clock {
-	margin-top: 4px;
-	margin-bottom: 4px;
 	padding-left: 4px;
-	border-radius: 8px;
 	transition: none;
-	color: #FFFACD;
-	background: linear-gradient(to right bottom, #47056e 30%, #fa8d07);
+	color: #fc7eda;
+	background: linear-gradient(87deg, rgba(92,5,97,1) 0%, rgba(71,4,84,1) 100%); 
 	border-top-right-radius: 0px;
 	border-bottom-right-radius: 0px;
 }
@@ -191,27 +172,19 @@ window#waybar {
 #clock.date  {
 	padding-right: 4px;
 	padding-left: 4px;
-	border-radius: 8px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-	margin-right: 4px;
 	transition: none;
-	color: #FFFACD;
-	background: linear-gradient(to left bottom, #47056e 30%, #fa8d07);
+	color: #fa8d07;
+	background: #470454;
 	border-top-left-radius: 0px;
 	border-bottom-left-radius: 0px;
 }
 
 #custom-power {
-	font-size: 16px;
-	margin-bottom: 4px;
-	margin-top: 4px;
-	margin-right: 4px;
 	padding-left: 4px;
-	border-radius: 8px;
+	padding-right: 4px;
 	transition: none;
 	color: #02d4cc;
-	background: #1A1826;
+  background: linear-gradient(87deg, rgba(71,4,84,1) 0%, rgba(50,3,71,1) 30%); 
 }
 
 
