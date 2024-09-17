@@ -11,8 +11,8 @@
 
     width = (200, 300)
     height = 120
-    origin = top-center
-    offset = 0x8
+    origin = top-right
+    offset = 4x6
     scale = 0
     # Maximum number of notification (0 means no limit)
     notification_limit = 20
@@ -122,7 +122,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>\n%b"
+    format = "<b>%a</b>\n%s\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
@@ -220,7 +220,7 @@
 
     # Uncomment this if you want to let notifications appear under fullscreen
     # applications (default: overlay)
-     layer = top
+     layer = overlay
 
     # Set this to true to use X11 output on Wayland.
     force_xwayland = false
