@@ -6,12 +6,13 @@
 | OS:        | [NixOS](https://nixos.org)                         |
 | WM:        | [Hyprland](https://hyprland.org)                   |
 | Status Bar:| [Waybar](https://github.com/Alexays/Waybar)        |
-| Launcher:  | [Rofi](https://github.com/davatorium/rofi)         |
+| Launcher:  | [Rofi](https://github.com/lbonn/rofi)              |
 | Terminal:  | [kitty](https://sw.kovidgoyal.net/kitty/)          |
 ---
 
-## [Preview](https://www.youtube.com/watch?v=AEkSky0S0tE)
- ![](/preview.png "rice preview")
+## Preview
+ ![](/preview1.png "preview1")
+ ![](/preview2.png "preview2")
 ---
 
 ### Warning
