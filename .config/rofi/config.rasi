@@ -3,9 +3,14 @@ configuration {
   display-drun: "Applications:";
   display-window: "Windows:";
   drun-display-format: "{icon} {name}";
-  font: "Inconsolata 12";
+//  font: "Inconsolata";
+// font-family: "Inconsolata";
+//font: "Inconsolata Nerd Font 12";
+//font-family: "Inconsolata Nerd Font 12";
   show-icons: true;
-  icon-theme: "Adwaita";
+  icon-theme: "Papirus";
+  sort: true;
+  sorting-method: "fzf";
 }
 
 //@theme "solarized"
@@ -16,3 +21,4 @@ configuration {
 window {
     width:30%;
 }
+
