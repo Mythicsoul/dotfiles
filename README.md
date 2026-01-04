@@ -17,7 +17,7 @@
 ---
 
 > [!NOTE]
-This configration is not meant to be installed from the repository. Feel free to take inspiration and copy any parts you like.
+This configuration is not meant to be installed from the repository. Feel free to take inspiration and copy any parts you like.
 
 For questions or suggestions you can get in touch with me on Discord @Mythicsoul
 
