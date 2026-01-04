@@ -1,23 +1,24 @@
-# [NixOS + Hyprland Rice]
- Welcome to my dotfiles
----
-| main components |                                               |
-|----------- |----------------------------------------------------|
-| OS:        | [NixOS](https://nixos.org)                         |
-| WM:        | [Hyprland](https://hyprland.org)                   |
-| Status Bar:| [Waybar](https://github.com/Alexays/Waybar)        |
-| Launcher:  | [Rofi](https://github.com/lbonn/rofi)              |
-| Terminal:  | [kitty](https://sw.kovidgoyal.net/kitty/)          |
----
+<h1 align="center">NixOS + Hyprland 🌾</h1>
 
 ## Preview
  ![](/preview1.png "preview1")
  ![](/preview2.png "preview2")
 ---
 
-### Warning
-These dotfiles are not meant to be a drag n drop replacement.
+## Main Components
 
-Feel free to contact me on Discord @Mythicsoul
+| Component | Link                                              |
+|-----------|---------------------------------------------------|
+| Operating System | [NixOS](https://nixos.org)                 |
+| Wayland Compositor | [Hyprland](https://hyprland.org)         |
+| Status Bar| [Waybar](https://github.com/Alexays/Waybar)       |
+| Launcher  | [Rofi](https://github.com/lbonn/rofi)             |
+| Terminal  | [kitty](https://sw.kovidgoyal.net/kitty/)         |
+---
+
+> [!NOTE]
+This configration is not meant to be installed from the repository. Feel free to take inspiration and copy any parts you like.
+
+For questions or suggestions you can get in touch with me on Discord @Mythicsoul
 
 ---
