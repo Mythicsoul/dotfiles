@@ -1,70 +1,73 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, inputs, ... }:
-
-# let 
-#   nvdriver = pkgs.linuxPackages.nvidia_x11.overrideAttrs(oldAttrs: rec {
-#     version ="555.58.02";
-#     name = (builtins.parseDrvName oldAttrs.name).name + "-" + version;
-#     src = pkgs.fetchurl {
-#       url = "https://download.nvidia.com/XFree86/Linux-x86_64/${version}/NVIDIA-Linux-x86_64-${version}.run";
-#       sha256 = "c5cb6de133d194e27aaf94b9e21e56e8f4faff7672d91e0048d14fbbc4d21ca3";
-#     };
-#     patches = [];
-#   });
-# in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
-  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
-  # Bootloader
+{
+  imports = [
+    ./hardware-configuration.nix
+    # ./boot.nix
+    ./modules/nvidia.nix
+    ./modules/services.nix
+  ];
 
+  boot.kernelModules = [
+    "hid-logitech-dj"
+  ];
+  # systemd.tpm2.enable = false; # uncomment if persists https://discourse.nixos.org/t/a-start-job-is-runnning-for-dev-tpmr0/56089
   boot.loader = {
     systemd-boot.enable = false;
-    efi = { 
+    efi = {
       canTouchEfiVariables = false;
       efiSysMountPoint = "/boot";
     };
-    grub = { 
+    grub = {
       device = "nodev";
       enable = true;
       efiSupport = true;
       useOSProber = true;
       efiInstallAsRemovable = true;
     };
-  };
-  
-  hardware.opengl = {
-	enable = true;
-	driSupport = true;
-	driSupport32Bit = true;
-	extraPackages = with pkgs; [ libva ];
+    timeout = 10;
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-	  open = false;
-	  nvidiaSettings = true;
-	  package = config.boot.kernelPackages.nvidiaPackages.stable;
-    # package = nvdriver;
+  fileSystems."/mnt/data" = {
+    depends = [ "/" ];
+    device = "/dev/disk/by-uuid/71bbc88e-a351-413a-9819-61f43faa03a4";
+    fsType = "ext4";
+    options = [
+      "rw"
+      "nosuid"
+      "nodev"
+      "nofail"
+    ];
   };
 
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  networking.hostName = "nix-dome";
+  networking.firewall.allowedTCPPorts = [ 8384 ]; # syntching web UI
   networking.networkmanager.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+  networking.networkmanager.plugins = [
+    pkgs.networkmanager-openvpn
+  ];
+  # networking.nameservers = [
+  #   "1.1.1.1"
+  #   "8.8.8.8"
+  #   "2606:4700:4700::1111"
+  #   "2606:4700:4700::1001"
+  # ];
+  #
+  services.resolved = {
+    enable = true;
+    domains = [ "~." ]; # Use global DNS for all queries
+    extraConfig = ''
+      DNS=1.1.1.1 1.0.0.1 8.8.8.8 2606:4700:4700::1111 2606:4700:4700::1001
+      DNSSEC=allow-downgrade
+      DNSOverTLS=opportunistic
+    '';
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -73,188 +76,250 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
-    
-    LC_ALL = "en_GB.UTF-8";
-
-    # LC_ADDRESS = "de_DE.UTF-8";
-    # LC_IDENTIFICATION = "de_DE.UTF-8";
-    # LC_MEASUREMENT = "de_DE.UTF-8";
-    # LC_MONETARY = "de_DE.UTF-8";
-    # LC_NAME = "de_DE.UTF-8";
-    # LC_NUMERIC = "de_DE.UTF-8";
-    # LC_PAPER = "de_DE.UTF-8";
-    # LC_TELEPHONE = "de_DE.UTF-8";
-    # LC_TIME = "en_GB.UTF-8";
-    # LC_MESSAGES = "en_GB.UTF-8";
+    LC_ADDRESS = "en_GB.UTF-8";
+    LC_IDENTIFICATION = "en_GB.UTF-8";
+    LC_MEASUREMENT = "en_GB.UTF-8";
+    LC_MONETARY = "en_GB.UTF-8";
+    LC_NAME = "en_GB.UTF-8";
+    LC_NUMERIC = "en_GB.UTF-8";
+    LC_PAPER = "en_GB.UTF-8";
+    LC_TELEPHONE = "en_GB.UTF-8";
+    LC_TIME = "en_GB.UTF-8";
+    LC_MESSAGES = "en_GB.UTF-8";
   };
-  
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = false;
-  services.xserver.desktopManager.gnome.enable = false;
+  # TTY user login
   services.xserver.displayManager.startx.enable = true;
 
-  # Configure keymap in X11
   services.xserver = {
-    xkb.layout = "de";
-    xkb.variant = "";
+    xkb.layout = "de,gr,ru";
+    xkb.variant = ",,phonetic";
   };
 
-  # Configure console keymap
   console.keyMap = "de";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  sound.enable = true;
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
- users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.zsh;
   users.users.mythicsoul = {
     isNormalUser = true;
     description = "mythicsoul";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  firefox
+    extraGroups = [
+      "networkmanager"
+      "wheel"
     ];
   };
 
   # Enable Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    # fixes https://github.com/NixOS/nix/issues/11728
+    download-buffer-size = 524288000;
+  };
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs;
-  [
-    hyprland
-    neofetch 
-    kitty
-    waybar
-    rofi-wayland
-    rofi-power-menu
-    power-profiles-daemon
+  # using firefox pkg from unstable to get a more recent version of widevine
+  # nixpkgs.overlays = let
+  #   nixos-unstable = import <nixos-unstable> {};
+  # in [
+  #     (final: prev: {
+  #         inherit (nixos-unstable.pkgs) firefox;
+  #     })
+  # ];
+
+  environment.systemPackages = with pkgs; [
+    ## desktop ##
     hyprpaper
+    rofi
+    rofi-power-menu
     dunst
     wl-clipboard
     cliphist
     grim
     slurp
-    libnotify
+    power-profiles-daemon
     lm_sensors
     playerctl
-    grub2
-    chatterino2
-    # mesa-demos
-    spotify
-    fsearch
-    flatpak
-    streamlink
-    vlc
-    os-prober
-    git
-    # gnomeExtensions.vitals
-    # gnomeExtensions.appindicator
-    # gnomeExtensions.nvidia-gpu-stats-tool
-    # gnomeExtensions.dash-to-panel
-    # steam
-    firefox
-    # gh
-    syncthing
-    syncthingtray
     qt6.qtwayland
-    libsForQt5.qt5.qtwayland    
-    gedit
-    gnome.gnome-disk-utility
-    gnome.nautilus
-    gnome.gnome-system-monitor
-    gnome.gnome-characters
-    gnome.gnome-calendar
-    gnome.gnome-calculator
-    baobab
-    pamixer
-    nomacs
-    keepassxc
-    wev
-    font-manager
-    killall
+    libsForQt5.qt5.qtwayland
+    inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default # maybe put inside home-manager
+    hyprsunset
+    # hyprlock TODO
+    # hypridle
+    hyprpolkitagent
+    clipse
     networkmanagerapplet
+
+    ## programs ##
+    chatterino2
+    fsearch
+    vlc
+    syncthingtray
+    gnome-text-editor
+    gnome-disk-utility
+    nautilus
+    gnome-system-monitor
+    gnome-characters
+    gnome-calendar
+    gnome-calculator
+    baobab
+    nomacs
+    gimp3
+    lmms
+    xfce.thunar
+    streamlink
+    mpv
+    easyeffects
+    pwvucontrol
+    keepassxc
+    xournalpp
+    gparted
+    nvidia-system-monitor-qt
+    discord
+    inputs.vasciipp.packages.${pkgs.stdenv.hostPlatform.system}.default
+    protonvpn-gui
+    warehouse
+    solaar
+    libnotify
+
+    ## utils ##
+    wev
     jq
-    gnome.adwaita-icon-theme
     catimg
-    htop
     btop
     nvitop
-    gimp
-    lmms
-    # neovim
-    opentabletdriver
-    # (vscode-with-extensions.override {
-    #   vscode = vscodium;
-    #   vscodeExtensions = with vscode-extensions; [
-    #     ms-vscode.cpptools-extension-pack
-    #     #twxs.cmake
-    #     #vscode.cmake-tools
-    #     #josetr.cmake-language-support-vscode
-    #     bbenoist.nix
-    #     arrterian.nix-env-selector
-    #   ]; 
-    # })
-    # inputs.helix.packages."${pkgs.system}".helix
+    ffmpeg
+    yt-dlp
+    gifski
+    killall
+    tree
+    pamixer
+    ntfs3g
+    p7zip
+    unzip
+    nix-prefetch-git
+    ncdu
+    mesa-demos
+    gphoto2
+    dig
+
+    # grub2
+    # os-prober
+
+    ## dev ##
     nil
     clang-tools
     cmake
+    pkg-config
     gcc
     cmake-language-server
     gnumake
-    xfce.thunar
-];
+    gdb
+    nixfmt-rfc-style # nix formatter
+    python3Packages.python-lsp-server
+    bash-language-server
+    # haskellPackages.haskell-language-server
+    # haskell.compiler.native-bignum.ghc982
+    # wineWowPackages.waylandFull
+    
 
-  fonts.packages = with pkgs; [
-    nerdfonts
+    ## gaming ##
+    lutris
+    mangohud
+    goverlay
+    osu-lazer-bin
+    winetricks
+
   ];
-  fonts.fontDir.enable = true;  
 
+  fonts = {
+    packages = with pkgs; [
+      nerd-fonts.inconsolata
+      nerd-fonts.jetbrains-mono
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+      # fixing cs2 pango errors
+      nerd-fonts.caskaydia-cove # fallback
+      nerd-fonts.fira-code
+      nerd-fonts.iosevka
+      # extra?
+      nerd-fonts.blex-mono
+      nerd-fonts.geist-mono
+      nerd-fonts."m+"
+      nerd-fonts.d2coding
 
-  # List services that you want to enable:
+      nerd-fonts.noto
+      nerd-fonts.symbols-only
+    ];
+    fontDir.enable = true;
+  };
+
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
+  services.openssh.enable = true;
+  # programs.ssh.startAgent = true;
+  security.polkit.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  services.flatpak.enable = true;
+  services.syncthing = {
+    enable = true;
+    relay.enable = true;
+    configDir = "/home/mythicsoul/.config/syncthing";
+    user = "mythicsoul";
+    group = "users";
+    systemService = true;
+    openDefaultPorts = true;
+  };
+  services.power-profiles-daemon.enable = true;
+  services.dbus.implementation = "broker"; # UWSM
+  services.gvfs.enable = true;
+
+  hardware.opentabletdriver.enable = true;
+  hardware.opentabletdriver.daemon.enable = true;
+  hardware.logitech.wireless.enable = true;
+
+  programs.nano.nanorc = ''
+    set tabstospaces
+    set tabsize 4
+  '';
+  programs.firefox.enable = true;
+  programs.waybar.enable = true;
+  programs.xwayland.enable = true;
+  # programs.nm-applet.enable = true;
+  programs.steam = {
+    enable = true;
+    protontricks.enable = true;
+    extraPackages = [
+      pkgs.pango
+      pkgs.gamescope
+    ];
+  };
+  programs.zsh.enable = true;
+  # programs.steam.gamescopeSession.enable = false;
+  # programs.gamemode.enable = true;
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+    config.Hyprland = {
+      default = [
+        "hyprland"
+        "gtk"
+      ];
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -264,50 +329,4 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-
-  programs.nano.nanorc = 
-  ''
-    set tabstospaces
-    set tabsize 4
-  '';
-
-#  environment.etc."bashrc".text = 
-#  ''
-#    export PS1="\n\[\033[1;36m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\$\[\033[0m\] "
-#    # set PATH so it includes user's private bin if it exists
-#    if [ -d "$HOME/.local/bin" ] ; then
-#        PATH="$HOME/.local/bin:$PATH"
-#    fi
-#  '';
-#  environment.shellAliases = {
-#    code = "nohup flatpak run com.visualstudio.code --enable-features=UseOzonePlatform --ozone-platform=wayland";
-#  }; 
-
-  programs.hyprland.enable = true;
-  programs.firefox.enable = true;
-  programs.waybar.enable = true;
-  programs.xwayland.enable = true;
-  programs.nm-applet.enable = true;
-  # programs.steam.enable = true;
-  programs.zsh.enable = true;
-  # programs.steam.gamescopeSession.enable = false;
-  # programs.gamemode.enable = true;
-
-  hardware.opentabletdriver.enable = true;
-
-  xdg.portal = {
-	  enable = true;
-	  extraPortals = [
-	    pkgs.xdg-desktop-portal-gtk 
-	  ];
-	  config.Hyprland = {
-	    default = [ "hyprland" "gtk" ];
-	    "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-	  };
-  };
-
-  services.flatpak.enable = true;
-  services.syncthing.enable = true;
-  services.syncthing.relay.enable = true;
-  services.power-profiles-daemon.enable = true;
 }
