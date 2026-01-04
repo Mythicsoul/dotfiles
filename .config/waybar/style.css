@@ -3,17 +3,19 @@
   margin: 0px;
   border: none;
   min-height: 0;
-  font-family: "NotoSans Nerd Font";
+  /* font-family: "Noto Sans Nerd Font"; */ /* is was not commented but it doesnt seem to have any effect... i should check whats going on here (what font am i using?) */
   font-weight: 600;
   font-size: 13px;
 }
 
 window#waybar {
-	background: rgba(50, 3, 71, 0.8);
+	/* background: rgba(50, 3, 71, 0.8); */
+	background: rgba(13, 5, 18, 0.85);
 }
 
 #custom-launcher {
-	margin-right: 6px;
+	/* margin-right: 6px; */
+	margin-right: 2px;
 	margin-left: 2px;
 	padding-left: 4px;
 	border-radius: 6px;
@@ -23,7 +25,7 @@ window#waybar {
 }
 
 #window {
-	border-radius: 8px;
+	/* border-radius: 8px; */
 	transition: none;
 	color: #FFFACD;
 	background: transparent;
@@ -46,8 +48,13 @@ window#waybar {
 	background: transparent;
 }
 
-#workspaces button.active{ 
-	background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
+#workspaces button.active {
+  background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
+  box-shadow: none;
+}
+#workspaces button.visible:not(.active) {
+  background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
+  box-shadow: inset 0 0 8px 0 #47056e;
 }
 
 #workspaces button:first-child{
@@ -93,23 +100,42 @@ window#waybar {
 
 #custom-tray {
 	color: #de78c3;
-	min-width: 20px;
+	min-width: 5px;
+	/* padding-right: 100px; */
+	/* border-radius: 8px; */
+	background: #310247;
+	/* #310247 */
+	/* background: #531866; */
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+#custom-tray-end {
+	color: #de78c3;
+	min-width: 5px;
+	padding-right: 2px;
 	border-radius: 8px;
-	background: #531866;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
+	background: linear-gradient(90deg, #310247 20%, #531866 100%);
+	/* background: #310247; */
+	/* background: #531866; */
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;	
 }
 
 #tray {
-	min-width: 30px;
-	border-radius: 8px;
+	/* min-width: 30px; */
+	/* min-width: 50px; */
+	/* border-radius: 8px; */
+	/* border-bottom-left-radius: 0px; */
+	/* border-top-left-radius: 0px; */
 	transition: none;
 	background: transparent;
+	/* margin-right: 1px; */
 
 }
 
 #tray menu {
-	background: #47056e;
+	/* background: #47056e; */
+	background: #1c0229;
 	color: #FFFACD;
  	border-style: solid;
  	border-width: 2px;
@@ -118,22 +144,26 @@ window#waybar {
 }
 
 #custom-hardware {
-	min-width: 10px;
-	min-width: 30px;
+	/* min-width: 10px; */
+	/* min-width: 30px; */
+	padding-left: 4px;
 	color: #02a79f;
 	background: #531866;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 8px;
+	border-top-left-radius: 8px;
+	/* border-radius: 8px; */
 }
 
-#cpu, #temperature, #memory, #disk, #power-profiles-daemon, #network {
+#cpu, #temperature, #memory, #disk, #disk.disk2, #power-profiles-daemon, #network {
 	padding-right: 4px;
 	padding-left: 4px;
 	background: transparent;
 	color: #FFFACD;
 }
 
-#cpu:hover, #temperature:hover, #memory:hover, #disk:hover, #power-profiles-daemon:hover ,#network:hover{
+#cpu:hover, #temperature:hover, #memory:hover, #disk:hover, #disk.disk2:hover, #power-profiles-daemon:hover ,#network:hover{
 	background: linear-gradient(180deg, #47056e, #6E0561 40%, #fa6c07 88%, #fa8d07);
 }
 
@@ -141,12 +171,14 @@ window#waybar {
   padding-left: 4px;
   transition: none;
   color: #1DB954;
-  background: linear-gradient(90deg, rgba(83,24,102,1) 20%, rgba(106,5,114,1) 50%, rgba(92,5,97,1) 100%); 
+  /* background: linear-gradient(90deg, rgba(83,24,102,1) 20%, rgba(106,5,114,1) 50%, rgba(92,5,97,1) 100%); */ 
+  background: linear-gradient(90deg, rgba(83,24,102,1) 30%, rgba(106,5,114,1) 70%, rgba(92,5,97,1) 100%); 
 }
 
 #pulseaudio {
-	padding-left: 4px;
-	padding-right: 4px;
+	/* padding-left: 4px; */
+	padding-left: 2px;
+	/* padding-right: 4px; */
 	transition: none;
 	color: #f9b1e6;
 	background: #5c0561;
@@ -162,7 +194,8 @@ window#waybar {
 }
 
 #clock.date  {
-	padding-right: 4px;
+	/* padding-right: 4px; */
+	padding-right: 2px;
 	padding-left: 4px;
 	transition: none;
 	color: #fa8d07;
@@ -176,14 +209,7 @@ window#waybar {
 	padding-right: 4px;
 	transition: none;
 	color: #02d4cc;
-  background: linear-gradient(87deg, rgba(71,4,84,1) 0%, rgba(50,3,71,1) 30%); 
+  /* background: linear-gradient(87deg, rgba(71,4,84,1) 0%, rgba(50,3,71,1) 30%); */ 
+  background: linear-gradient(87deg, rgba(71,4,84,1) 0%, rgba(50,3,71,1) 100%); 
 }
-
-
-
-
-
-
-
-
 
